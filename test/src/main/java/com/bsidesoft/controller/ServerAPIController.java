@@ -1,11 +1,8 @@
 package com.bsidesoft.controller;
 
-import com.bsidesoft.model.image_info;
 import com.bsidesoft.model.payload.ImageInfo;
 import com.bsidesoft.renderer.*;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
@@ -15,6 +12,7 @@ import java.util.ArrayList;
 import static java.lang.Thread.currentThread;
 
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class ServerAPIController {
