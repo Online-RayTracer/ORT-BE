@@ -36,7 +36,7 @@ public class ServerAPIController {
         renderer.samples = imageInfo.getSamples();
 
         renderer.light_color = new linear_color(imageInfo.getLight_color().get(0), imageInfo.getLight_color().get(1), imageInfo.getLight_color().get(2));
-        renderer.filepath = "./produceimage/" + imageInfo.getName();
+        renderer.filepath = imageInfo.getName();
 
         vec3 lookfrom = new vec3(imageInfo.getCam_location().get(0), imageInfo.getCam_location().get(1), imageInfo.getCam_location().get(2));
         vec3 lookat = new vec3(imageInfo.getCam_lookat().get(0), imageInfo.getCam_lookat().get(1), imageInfo.getCam_lookat().get(2));
@@ -96,7 +96,7 @@ public class ServerAPIController {
         long s = (System.currentTimeMillis() - start) / 1000;
         System.out.printf("Time took: %d:%02d:%02d", s / 3600, s % 3600 / 60, s % 60);
 
-        File file = new File("./produceimage/" + imageInfo.getName());
+        File file = new File(imageInfo.getName());
         InputStream is = FileUtils.openInputStream(file);
 
         return new InputStreamResource(is);
