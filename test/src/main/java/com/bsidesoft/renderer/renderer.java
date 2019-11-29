@@ -12,7 +12,7 @@ public class renderer {
     public camera cam;
     public linear_color light_color;
     public hitable_list world;
-    public on_rendered on_rendered;
+    public com.bsidesoft.renderer.on_rendered on_rendered;
 
     public void start_render_async() {
         new Thread(this::render).start();

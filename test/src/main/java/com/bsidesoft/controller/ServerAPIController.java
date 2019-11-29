@@ -2,11 +2,16 @@ package com.bsidesoft.controller;
 
 import com.bsidesoft.model.payload.ImageInfo;
 import com.bsidesoft.renderer.*;
+import com.bsidesoft.service.StorageService;
+import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 
 import static java.lang.Thread.currentThread;
@@ -17,8 +22,11 @@ import static java.lang.Thread.currentThread;
 @RequestMapping("/api")
 public class ServerAPIController {
 
+    private StorageService storageService;
+
     @PostMapping(value = "/renderer", produces = MediaType.IMAGE_PNG_VALUE)
-    public String postRequest(@RequestBody ImageInfo imageInfo) {
+    @ResponseBody
+    public Resource postRequest(@RequestBody ImageInfo imageInfo) throws IOException {
 
         long start = System.currentTimeMillis();
 
@@ -28,7 +36,7 @@ public class ServerAPIController {
         renderer.samples = imageInfo.getSamples();
 
         renderer.light_color = new linear_color(imageInfo.getLight_color().get(0), imageInfo.getLight_color().get(1), imageInfo.getLight_color().get(2));
-        renderer.filepath = String.format("%dx%dx%d.png", renderer.width, renderer.height, renderer.samples);
+        renderer.filepath = "./produceimage/" + imageInfo.getName();
 
         vec3 lookfrom = new vec3(imageInfo.getCam_location().get(0), imageInfo.getCam_location().get(1), imageInfo.getCam_location().get(2));
         vec3 lookat = new vec3(imageInfo.getCam_lookat().get(0), imageInfo.getCam_lookat().get(1), imageInfo.getCam_lookat().get(2));
@@ -88,10 +96,10 @@ public class ServerAPIController {
         long s = (System.currentTimeMillis() - start) / 1000;
         System.out.printf("Time took: %d:%02d:%02d", s / 3600, s % 3600 / 60, s % 60);
 
-        InputStream in = getClass()
-                .getResourceAsStream("/com/bsidesoft/produceimage/" + imageInfo.getName() + ".png");
+        File file = new File("./produceimage/" + imageInfo.getName());
+        InputStream is = FileUtils.openInputStream(file);
 
-        return "/com/bsidesoft/produceimage/" + imageInfo.getName() + ".png";
+        return new InputStreamResource(is);
 
     }
 }

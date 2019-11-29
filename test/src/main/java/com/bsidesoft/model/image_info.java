@@ -1,9 +1,6 @@
 package com.bsidesoft.model;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import java.lang.reflect.Array;
+import org.json.JSONObject;
 
 public class image_info {
     String name;
