@@ -26,7 +26,7 @@ public class ServerAPIController {
 
     @PostMapping(value = "/renderer", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public Resource postRequest(@RequestBody ImageInfo imageInfo) throws IOException {
+    public String postRequest(@RequestBody ImageInfo imageInfo) throws IOException {
 
         long start = System.currentTimeMillis();
 
@@ -96,10 +96,7 @@ public class ServerAPIController {
         long s = (System.currentTimeMillis() - start) / 1000;
         System.out.printf("Time took: %d:%02d:%02d", s / 3600, s % 3600 / 60, s % 60);
 
-        File file = new File(imageInfo.getName());
-        InputStream is = FileUtils.openInputStream(file);
-
-        return new InputStreamResource(is);
+        return "http://15.165.0.14:4000/static/" + imageInfo.getName();
 
     }
 }
